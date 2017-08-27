@@ -13,45 +13,32 @@ body {
   top: 50%;
   left: 50%; }
 
-.chat {
-  background-color: #9AC1BF;
-  border-radius: 5px;
+.modal, .modal > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center; }
+
+.modal {
   position: absolute;
   transform: translate(-50%, -50%);
   width: 380px;
   height: 500px;
+  background-color: #9AC1BF;
+  border-radius: 10px;
   padding: 7.5px 7.5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center; }
-  .chat > *, .chat .in > form {
-    width: 365px;
-    border-radius: 5px; }
-  .chat .contact, .chat .out form {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center; }
-  .chat .contact {
-    height: 10%; }
-  .chat .in {
-    height: 74%;
-    background-color: #F8F5F1; }
-  .chat .out {
-    height: 13%; }
-    .chat .out form {
-      height: 100%; }
-      .chat .out form input {
-        border: none;
-        border-radius: 3px;
-        background-color: #F8F5F1; }
-      .chat .out form input[type="text"] {
-        width: 84%;
-        height: 100%; }
-      .chat .out form input[type="submit"] {
-        color: #9AC1BF;
-        width: 15%;
-        height: 100%; }
+  box-shadow: 0 0 25px #C4C0B7; }
+  .modal > * {
+    width: 80%; }
+  .modal .modal-header {
+    height: 10%;
+    text-align: center; }
+  .modal .modal-form {
+    height: 80%; }
+    .modal .modal-form input {
+      width: inherit;
+      height: 50px;
+      border: none;
+      border-radius: 5px; }
 
 /*# sourceMappingURL=index.css.map */

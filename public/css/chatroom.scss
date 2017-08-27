@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+$width: 380px;
+$height: 500px;
+$padding-h: 7.5px;
+$padding-v: 7.5px;
+$bg-chat-color: #F8F5F1;
+$bg-modal-color: #9AC1BF;
+$shadow-color: #C4C0B7; 
+$font: 'Mukta', sans-serif;
+
+body{
+  background: linear-gradient(120deg, #E5DAD2, #E3DED9) ;
+}
+
+* {
+  box-sizing: border-box;
+  box-shadow: none;
+  font-family: $font;
+  font-size: 16px;
+}
+
+.container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.chat{
+  background-color: $bg-modal-color;
+  border-radius: 10px;
+  box-shadow: 0 0 25px $shadow-color;
+
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: $width;
+  height: $height;
+  padding: $padding-h $padding-v;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  
+  & > *, & .in > form{
+    width: $width - 2*$padding-h;
+    border-radius: 5px;
+  }
+  
+  & .contact, & .out form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  & .contact{
+    height: 10%;
+  }
+  
+  & .in{
+    height: 74%;
+    background-color: $bg-chat-color;
+  }
+
+  
+  & .out{
+    height: 13%;
+
+    & form{
+      height: 100%;
+
+      & input{
+        border: none;
+        border-radius: 3px;
+        background-color: $bg-chat-color;
+      }
+      
+      & input[type="text"]{
+        width: 84%;
+        height: 100%;
+      }
+
+      & input[type="submit"]{
+        color: #9AC1BF;
+        width: 15%;
+        height: 100%;
+      }
+    }
+  }
+}

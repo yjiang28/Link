@@ -3,7 +3,9 @@ $width: 380px;
 $height: 500px;
 $padding-h: 7.5px;
 $padding-v: 7.5px;
-$bg: #D4D4E3;
+$bg-chat-color: #F8F5F1;
+$bg-modal-color: #9AC1BF;
+$shadow-color: #C4C0B7; 
 $font: 'Mukta', sans-serif;
 
 body{
@@ -23,65 +25,41 @@ body{
   left: 50%;
 }
 
-.chat{
-  background-color: #9AC1BF;
-  border-radius: 5px;
-  
+.modal, .modal>form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modal{
   position: absolute;
   transform: translate(-50%, -50%);
   width: $width;
   height: $height;
-  padding: $padding-h $padding-v;
+  background-color: $bg-modal-color;
+  border-radius: 10px;
+  padding: $padding-v $padding-h;
+  box-shadow: 0 0 25px $shadow-color;
   
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  
-  & > *, & .in > form{
-    width: $width - 2*$padding-h;
-    border-radius: 5px;
+  & > *{
+    width: 80%;
+    // border: 1px black solid;
   }
   
-  & .contact, & .out form{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  & .modal-header{
+    height: 10%;  
+    text-align: center;
   }
   
-  & .contact{
-    height: 10%;
-  }
-  
-  & .in{
-    height: 74%;
-    background-color: #F8F5F1;
-  }
+  & .modal-form{
+    height: 80%;
 
-  
-  & .out{
-    height: 13%;
-
-    & form{
-      height: 100%;
-
-      & input{
-        border: none;
-        border-radius: 3px;
-        background-color: #F8F5F1;
-      }
-      
-      & input[type="text"]{
-        width: 84%;
-        height: 100%;
-      }
-
-      & input[type="submit"]{
-        color: #9AC1BF;
-        width: 15%;
-        height: 100%;
-      }
+    & input{
+      width: inherit;
+      height: 50px;
+      border: none;
+      border-radius: 5px;
     }
   }
 }

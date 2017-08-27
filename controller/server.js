@@ -3,6 +3,8 @@ var http = require("http"),
 	path = require('path'),
 	settings = require("../settings"),
 	socketio = require("socket.io"),
+	mysql = require("mysql"),
+	db = require("../model/db.js"),
 	root = settings.root;
 
 const server = http.createServer(handleRequest);
@@ -11,7 +13,6 @@ server.listen(settings.port, settings.host, function(){
 });
 
 const io = socketio(server);
-
 io.on('connection', function(socket){
 	console.log("A user connected");
 
@@ -22,6 +23,14 @@ io.on('connection', function(socket){
 	socket.on('disconnection', function(){
 		console.log("A user disconnected");
 	});
+});
+
+const connnection = mysql.createConnection(function(err){
+	if(err){
+		console.log("Create connection for mysql db failed");
+		return;
+	}
+	console.log("mysql is set up with id", connection.threadId);
 });
 
 function handleRequest(req, res){
