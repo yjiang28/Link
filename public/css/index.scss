@@ -1,65 +1,206 @@
-@import url('https://fonts.googleapis.com/css?family=Mukta');
-$width: 380px;
-$height: 500px;
-$padding-h: 7.5px;
-$padding-v: 7.5px;
-$bg-chat-color: #F8F5F1;
-$bg-modal-color: #9AC1BF;
-$shadow-color: #C4C0B7; 
-$font: 'Mukta', sans-serif;
+$pink: #d9243b;
+$gray-light: rgba(0, 0, 0, 0.1);
+$gray-dark: #9194a3; 
+$font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 
-body{
-  background: linear-gradient(120deg, #E5DAD2, #E3DED9) ;
+*{
+    /* content, padding and border are all included in element's width and height */
+    box-sizing: border-box;
 }
 
-* {
-  box-sizing: border-box;
-  box-shadow: none;
-  font-family: $font;
-  font-size: 16px;
+*{
+    background-color: white;
 }
 
-.container{
-  position: absolute;
-  top: 50%;
-  left: 50%;
+html, body{
+    width:100%;
+    height:100%;
 }
 
-.modal, .modal>form{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.modal{
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: $width;
-  height: $height;
-  background-color: $bg-modal-color;
-  border-radius: 10px;
-  padding: $padding-v $padding-h;
-  box-shadow: 0 0 25px $shadow-color;
-  
-  & > *{
-    width: 80%;
-    // border: 1px black solid;
-  }
-  
-  & .modal-header{
-    height: 10%;  
-    text-align: center;
-  }
-  
-  & .modal-form{
-    height: 80%;
-
-    & input{
-      width: inherit;
-      height: 50px;
-      border: none;
-      border-radius: 5px;
+@media (max-width: 380px) {
+    .modal {
+        max-width: 100%;
     }
-  }
+    .modal > form > .input-group > img{
+        display: none;
+    }
 }
+
+@media (min-width: 380px) {
+    .modal {
+        width: 380px;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .modal {
+        width: 520px;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    .modal {
+        width: 520px;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .modal {
+        width: 520px;
+        max-width: 100%;
+    }
+}
+
+/* FONT SECTION */
+.font-navbar{
+    font-family: $font-family;
+    font-size: 18px;
+    color: $gray-dark;
+}
+
+.font-form{
+    font-family: $font-family;
+    font-size: 16px;
+    color: $gray-dark;
+}
+
+/* BUTTON SECTION */
+*[class$="btn"]:hover > span{
+    cursor: pointer;
+    transition: 0.2s;
+    color: $pink;
+    border-bottom: 1.5px $pink solid;
+}
+
+/* NAVIGATION BAR*/
+.navbar-h{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+
+    /* NAVIGATION ITEMS */
+    & div{
+        padding: 0 15px;
+        min-width: 100px;
+        text-align: center;
+        cursor: pointer;
+        line-height: 80px;
+    }
+}
+
+/* FORM */
+.modal{
+    height: 420px;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    border: $gray-light 2px solid;
+    border-radius: 5px;
+    padding-bottom: 20px;
+
+    /* FORM HEADER */
+    & .modal-header{
+        width: 100%;
+        height: 60px;
+        position: relative;
+        border-bottom: $gray-light 1px solid;
+
+        & div{
+            position: absolute;
+            width: 80%;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    /* POP-UP FORM FORM */
+    & form{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: 80%;
+
+        & .error-msg{
+            padding:0;
+            margin:0;
+            color: $pink;
+            display: none;
+        }
+        
+        /* FORM ITEMS */
+        *[class^="input-group"]{
+            width: 100%;
+            padding: 0;
+            margin: 20px 0 0 0;
+        }
+
+        .input-group-text{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 35px;            
+            
+            & input{
+                width: 100%;
+                height: 100%;
+                margin-left: 0;
+                padding: 0 15px;
+                border: $gray-light 1px solid;
+                border-radius: 3px 0 0 3px;
+
+                &:focus::placeholder{
+                    color: transparent;
+                }
+
+                &[type="button"]:hover, 
+                &[type="submit"]:hover{
+                    color: $pink;
+                    cursor: pointer;
+                }
+
+                /* :: selects a pseudo element/class */
+                &[type="email"]::placeholder, 
+                &[type="password"]::placeholder, 
+                &[type="text"]::placeholder{
+                    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                    font-size: 16px;
+                    color: $gray-dark;
+                }
+            }
+        } 
+    
+        .input-group-img{
+            height: 80px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            & img{
+                box-shadow: 0px 2px 4px $gray-light;
+                width: 80px;
+            }
+        }
+    }
+}
+
+
+
+
+
+

@@ -1,30 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Real-time chat</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link rel="stylesheet" href="/public/css/index.css">
-	<script src="/socket.io/socket.io.js"></script>
-   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>ChatApp</title>
+
+    <link rel="stylesheet" href="/public/css/index.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/public/js/index.js"></script>
+    <script src="/public/js/onload.js"></script>
 </head>
 
 <body>
-  <div class="container">
-    
-    <div class="modal modal-login">
-      <div class="modal-header">Login</div>
+    <!-- Navigation Bar-->
+    <nav class="navbar-h font-navbar">
+        <div class="logo-btn">
+            <span>Home</span>
+        </div>
 
-      <form class="modal-form">
-        <div class="error-msg"></div>
-        <input type="email" name="account" placeholder="  username">
-        <input type="password" name="pin" placeholder="  password">
-        <input class="font-form" type="submit" value="Sign In">
-      </form>
+        <div class="login-btn">
+            <span>Login</span>
+        </div>
+
+        <div class="register-btn">
+            <span>Register</span>
+        </div>
+    </nav> 
+
+    <!-- LOGIN FORM -->
+    <div class="modal font-form login-modal">
+        <div class="modal-header">
+            <div>Welcome back, little buddy.</div>
+        </div>
+        
+        <form class="form">
+            <div class="error-msg"></div>
+            
+            <div class="input-group-text">
+                <!-- <img src="/public/img/heart1.svg"> -->
+                <input type="text" name="account" placeholder="  username">
+            </div>
+
+            <div class="input-group-text">
+                <!-- <img src="/public/img/heart2.svg"> -->
+                <input type="password" name="pin" placeholder="  password">
+            </div>
+
+            <div class="input-group-text">
+                <input class="font-form" type="submit" value="Sign In">
+            </div>
+        </form>
 
     </div>
 
-  </div>
+    <!-- REGISTRATION FORM -->
+    <div class="modal font-form register-modal">
+        <div class="modal-header">
+            <div>Would you hang out with me?<br></div>
+        </div>
+        
+        <form class="form">
+            <div class="input-group-text">
+                <!-- <img src="/public/img/heart1.svg"> -->
+                <input type="text" name="first_name" placeholder="  first name">              
+            </div>
+
+            <div class="input-group-text">
+                <!-- <img src="/public/img/heart2.svg"> -->
+                <input type="text" name="last_name" placeholder="  last name">
+            </div>
+
+            <div style="width:100%;">
+                <div class="error-msg">This username already exists</div>
+                <div class="input-group-text">
+                    <!-- <img src="/public/img/heart3.svg"> -->
+                    <input type="text" name="username" placeholder="  username">
+                </div>
+            </div>
+
+            <div style="width:100%;">
+                <div class="error-msg">This email already exists</div>
+                <div class="input-group-text">
+                    <!-- <img src="/public/img/heart3.svg"> -->
+                    <input type="email" name="email" placeholder="  email">
+                </div>
+            </div>
+
+            <div class="input-group-text">
+                <!-- <img src="/public/img/heart4.svg"> -->
+                <input type="password" name="pin" placeholder="  password">
+            </div>
+
+            <div class="input-group-text">
+                <input class="font-form" type="submit" value="Sign up">
+            </div>
+        </form>
+
+    </div>
+
 </body>

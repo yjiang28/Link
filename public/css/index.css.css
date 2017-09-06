@@ -1,0 +1,58 @@
+/*
+Error: Invalid CSS after "": expected selector, was "{"
+        on line 1 of ./public/css/index.css.map
+
+1: {
+2: "version": 3,
+3: "mappings": "AAAQ,4DAAoD;AAU5D,IAAI;EACF,UAAU,EAAE,yCAA0C;;AAGxD,CAAE;EACA,UAAU,EAAE,UAAU;EACtB,UAAU,EAAE,IAAI;EAChB,WAAW,EATN,mBAAmB;EAUxB,SAAS,EAAE,IAAI;;AAGjB,UAAU;EACR,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,GAAG;EACR,IAAI,EAAE,GAAG;;AAGX,qBAAmB;EACjB,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,eAAe,EAAE,YAAY;EAC7B,WAAW,EAAE,MAAM;;AAGrB,MAAM;EACJ,QAAQ,EAAE,QAAQ;EAClB,SAAS,EAAE,qBAAqB;EAChC,KAAK,EApCC,KAAK;EAqCX,MAAM,EApCC,KAAK;EAqCZ,gBAAgB,EAjCD,OAAO;EAkCtB,aAAa,EAAE,IAAI;EACnB,OAAO,EAAE,WAAqB;EAC9B,UAAU,EAAE,gBAAsB;EAElC,UAAK;IACH,KAAK,EAAE,GAAG;EAIZ,oBAAe;IACb,MAAM,EAAE,GAAG;IACX,UAAU,EAAE,MAAM;EAGpB,kBAAa;IACX,MAAM,EAAE,GAAG;IAEX,wBAAO;MACL,KAAK,EAAE,OAAO;MACd,MAAM,EAAE,IAAI;MACZ,MAAM,EAAE,IAAI;MACZ,aAAa,EAAE,GAAG",
+4: "sources": ["index.scss"],
+5: "names": [],
+6: "file": "index.css"
+
+Backtrace:
+./public/css/index.css.map:1
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/scss/parser.rb:1278:in `expected'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/scss/parser.rb:1208:in `expected'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/scss/parser.rb:1188:in `expr!'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/scss/static_parser.rb:20:in `parse_selector'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:438:in `visit_rule'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:36:in `visit'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/stack.rb:79:in `block in with_base'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/stack.rb:135:in `with_frame'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/stack.rb:79:in `with_base'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:52:in `map'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:171:in `block in visit_children'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:170:in `visit_children'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:190:in `visit_root'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:36:in `visit'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:161:in `visit'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:10:in `visit'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/root_node.rb:36:in `css_tree'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:307:in `render_with_sourcemap'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:462:in `update_stylesheet'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `each'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:443:in `on_file_changed'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:320:in `block in watch'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/event/config.rb:23:in `call'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:115:in `_process_changes'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:19:in `block in loop_for'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:15:in `loop'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:15:in `loop_for'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/event/loop.rb:84:in `_wait_for_changes'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/event/loop.rb:42:in `block in setup'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/internals/thread_pool.rb:6:in `block in add'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"\": expected selector, was \"{\"\A         on line 1 of ./public/css/index.css.map\A \A 1: {\A 2: \"version\": 3,\A 3: \"mappings\": \"AAAQ,4DAAoD;AAU5D,IAAI;EACF,UAAU,EAAE,yCAA0C;;AAGxD,CAAE;EACA,UAAU,EAAE,UAAU;EACtB,UAAU,EAAE,IAAI;EAChB,WAAW,EATN,mBAAmB;EAUxB,SAAS,EAAE,IAAI;;AAGjB,UAAU;EACR,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,GAAG;EACR,IAAI,EAAE,GAAG;;AAGX,qBAAmB;EACjB,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,eAAe,EAAE,YAAY;EAC7B,WAAW,EAAE,MAAM;;AAGrB,MAAM;EACJ,QAAQ,EAAE,QAAQ;EAClB,SAAS,EAAE,qBAAqB;EAChC,KAAK,EApCC,KAAK;EAqCX,MAAM,EApCC,KAAK;EAqCZ,gBAAgB,EAjCD,OAAO;EAkCtB,aAAa,EAAE,IAAI;EACnB,OAAO,EAAE,WAAqB;EAC9B,UAAU,EAAE,gBAAsB;EAElC,UAAK;IACH,KAAK,EAAE,GAAG;EAIZ,oBAAe;IACb,MAAM,EAAE,GAAG;IACX,UAAU,EAAE,MAAM;EAGpB,kBAAa;IACX,MAAM,EAAE,GAAG;IAEX,wBAAO;MACL,KAAK,EAAE,OAAO;MACd,MAAM,EAAE,IAAI;MACZ,MAAM,EAAE,IAAI;MACZ,aAAa,EAAE,GAAG\",\A 4: \"sources\": [\"index.scss\"],\A 5: \"names\": [],\A 6: \"file\": \"index.css\""; }

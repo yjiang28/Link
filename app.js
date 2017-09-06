@@ -1,1 +1,2 @@
-const server = require("./controller/server.js");
+require('./controller/server.js');
+var path = require('path');

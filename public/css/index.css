@@ -1,44 +1,143 @@
-@import url("https://fonts.googleapis.com/css?family=Mukta");
-body {
-  background: linear-gradient(120deg, #E5DAD2, #E3DED9); }
+* {
+  /* content, padding and border are all included in element's width and height */
+  box-sizing: border-box; }
 
 * {
-  box-sizing: border-box;
-  box-shadow: none;
-  font-family: "Mukta", sans-serif;
-  font-size: 16px; }
+  background-color: white; }
 
-.container {
-  position: absolute;
-  top: 50%;
-  left: 50%; }
+html, body {
+  width: 100%;
+  height: 100%; }
 
-.modal, .modal > form {
+@media (max-width: 380px) {
+  .modal {
+    max-width: 100%; }
+
+  .modal > form > .input-group > img {
+    display: none; } }
+@media (min-width: 380px) {
+  .modal {
+    width: 380px;
+    max-width: 100%; } }
+@media (min-width: 768px) {
+  .modal {
+    width: 520px;
+    max-width: 100%; } }
+@media (min-width: 992px) {
+  .modal {
+    width: 520px;
+    max-width: 100%; } }
+@media (min-width: 1200px) {
+  .modal {
+    width: 520px;
+    max-width: 100%; } }
+/* FONT SECTION */
+.font-navbar {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  color: #9194a3; }
+
+.font-form {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  color: #9194a3; }
+
+/* BUTTON SECTION */
+*[class$="btn"]:hover > span {
+  cursor: pointer;
+  transition: 0.2s;
+  color: #d9243b;
+  border-bottom: 1.5px #d9243b solid; }
+
+/* NAVIGATION BAR*/
+.navbar-h {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  /* NAVIGATION ITEMS */ }
+  .navbar-h div {
+    padding: 0 15px;
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 80px; }
+
+/* FORM */
+.modal {
+  height: 420px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center; }
-
-.modal {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 380px;
-  height: 500px;
-  background-color: #9AC1BF;
-  border-radius: 10px;
-  padding: 7.5px 7.5px;
-  box-shadow: 0 0 25px #C4C0B7; }
-  .modal > * {
-    width: 80%; }
+  justify-content: flex-start;
+  align-items: center;
+  border: rgba(0, 0, 0, 0.1) 2px solid;
+  border-radius: 5px;
+  padding-bottom: 20px;
+  /* FORM HEADER */
+  /* POP-UP FORM FORM */ }
   .modal .modal-header {
-    height: 10%;
-    text-align: center; }
-  .modal .modal-form {
-    height: 80%; }
-    .modal .modal-form input {
-      width: inherit;
-      height: 50px;
-      border: none;
-      border-radius: 5px; }
+    width: 100%;
+    height: 60px;
+    position: relative;
+    border-bottom: rgba(0, 0, 0, 0.1) 1px solid; }
+    .modal .modal-header div {
+      position: absolute;
+      width: 80%;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
+  .modal form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    /* FORM ITEMS */ }
+    .modal form .error-msg {
+      padding: 0;
+      margin: 0;
+      color: #d9243b;
+      display: none; }
+    .modal form *[class^="input-group"] {
+      width: 100%;
+      padding: 0;
+      margin: 20px 0 0 0; }
+    .modal form .input-group-text {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      height: 35px; }
+      .modal form .input-group-text input {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+        padding: 0 15px;
+        border: rgba(0, 0, 0, 0.1) 1px solid;
+        border-radius: 3px 0 0 3px;
+        /* :: selects a pseudo element/class */ }
+        .modal form .input-group-text input:focus::placeholder {
+          color: transparent; }
+        .modal form .input-group-text input[type="button"]:hover, .modal form .input-group-text input[type="submit"]:hover {
+          color: #d9243b;
+          cursor: pointer; }
+        .modal form .input-group-text input[type="email"]::placeholder, .modal form .input-group-text input[type="password"]::placeholder, .modal form .input-group-text input[type="text"]::placeholder {
+          font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+          font-size: 16px;
+          color: #9194a3; }
+    .modal form .input-group-img {
+      height: 80px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center; }
+      .modal form .input-group-img img {
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        width: 80px; }
 
 /*# sourceMappingURL=index.css.map */
