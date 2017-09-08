@@ -55,49 +55,69 @@ var removeCookies = function(){
 //    Pushstate is not needed as the state is inserting into history automatically.
 // In both cases, the server first returns the html page, which also loads the script file.
 // On loading, the script file will request user info from the database and injecting corresponding data into proper places.
-
 $(document).ready(function() {
     if(isLoaded()) return;
 
     var exists = "exists",
         nonexists = "nonexists",
         success = "success",
-        wrong_pin = "wrong pin";
+        wrong_pin = "wrong pin",
+        socket;
 
     var url = String(window.location);
     var arr = url.split('@'),
         content = arr[1].split("/"),
         account = content[0],
         target  = content.length>1 ? content[1]: null,
-        user = {},  // user is the owner of this profile, s/he may or may not logged in on the current browser.
         newProfile = {};
 
+    var user = {
+        account: getCookie("account"),
+        pin: getCookie("pin")
+    };
+
+    $.post('/login.db',
+        {
+            data: JSON.stringify(user),
+            dataType: "application/json",
+            contentType: "text"
+        },
+        function (response) {
+            if (response == success)
+                insertInfo();
+            else{
+                window.location = "http://localhost:3000";
+                removeCookies();
+            }
+        }
+    );
+
     // insert user info by requesting data from db
-    $.get('/user.db', {account: account}, function(user){
+    function insertInfo(){
+        $.get('/user.db', {account: account}, function(user){
+            $(".user span").text(user.first_name+" "+user.last_name);
+            
+            user.profiles.map(function(elem){
+                // elem = JSON.parse(elem);
+                var url = "/@"+account+"?profile="+elem;
+                $(".profile-tg").append('<div class="btn"><a href=' + url + '>' + elem + '</a></div>');
+            });
+            user.contacts.map(function(elem){
+                // elem = JSON.parse(elem);
+                var url = "/@"+account+"?contact="+elem;
+                $(".contact-tg").append('<div class="btn"><a href=' + url + '>' + elem + '</a></div>');
+            });
 
-        $(".header").text(user.first_name+" "+user.last_name);
-        
-        user.profiles.map(function(elem){
-            elem = JSON.parse(elem);
-            var url = "/@"+account+"?profile="+elem.name;
-            $(".profiles").append('<div class="btn"><a href=' + url + '>' + elem.name + '</a></div>');
+            socket = io('/'+user.account, {transports: ['websocket'], upgrade: false});
+            socket.on("new profile", function(data){
+                var url = "/@"+account+"?contact="+data;
+                $(".profile-tg").append('<div><a href=' + url + '>' + data + '</a></div>');
+            });
+
+        }).fail(function(){
+            $('body').load('/public/error.html');
         });
-        user.contacts.map(function(elem){
-            elem = JSON.parse(elem);
-            var url = "/@"+account+"?contact="+elem.name;
-            $(".contacts").append('<div class="btn"><a href=' + url + '>' + elem.name + '</a></div>');
-        });
-
-        var socket = io('/'+user.account);
-        socket.on("new profile", function(data){
-            var url = "/@"+account+"?contact="+data;
-            $(".profiles").append('<div class="btn"><a href=' + url + '>' + data + '</a></div>');
-        });
-
-    }).fail(function(){
-        $('body').load('/public/error.html');
-    });
-
+    }
 
     window.onpopstate = function(event){
         // alert("from profile page");
@@ -106,16 +126,38 @@ $(document).ready(function() {
         $('body').load(src);
     }
 
-    $(".modal").css("display", "none");
+    $(".newProfile-modal").css("display", "none");
+    $('*[class$="tg"]').css("display", "none");
 
     $(".newProfile-btn").on("click", function(){
         window.location = "http://localhost:3000/@"+getCookie("account")+"/buildProfile";
     });
 
     if(target == "buildProfile"){
-        $(".modal").css("display", "flex");
-        $(".dd").css("display", "none");
+        $(".newProfile-modal").css("display", "flex");
+        $(".main-modal").css("display", "none");
     }
+
+    $('.main-modal').on('click', ".logout-btn", function(e){
+        e.preventDefault();
+        $.post("/logout.db",
+            {
+                data: getCookie("account"),
+                ContentType: "text/plain",
+                dataType: "text"
+            }, 
+            function(response){
+                //TODO: handle response and setCookie logout attribute
+                if(response == success) removeCookies();
+                $('html').html('');
+                $('body').load('/');
+            }
+        );
+    });
+
+    $(".profiles").on("click", function(){
+        $(".profile-tg").toggle();
+    });
 
     $('.newProfile-modal form').submit(function(e){
         e.preventDefault();
@@ -134,26 +176,10 @@ $(document).ready(function() {
             },
             function(response){
                 if(response == success){
-                    $(".profiles").append('<div class="btn">'+newProfile.name+'</div>');
+                    var url = "/@"+getCookie("account")+"?profile="+newProfile.name;
+                    // $(".profiles").append('<div class="btn"><a href=' + url + '>' + newProfile.name + '</a></div>');
                 }
             });
-    });
-
-    $('.navbar-v').on('click', ".logout-btn", function(e){
-        e.preventDefault();
-        $.post("/logout.db",
-            {
-                data: getCookie("account"),
-                ContentType: "text/plain",
-                dataType: "text"
-            }, 
-            function(response){
-                //TODO: handle response and setCookie logout attribute
-                if(response == success) removeCookies();
-                $('html').html('');
-                $('body').load('/');
-            }
-        );
     });
 
     /* when the selected file is changed, that is, when a file is submitted */

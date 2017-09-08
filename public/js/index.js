@@ -46,68 +46,19 @@ var removeCookies = function(){
 
 $(document).ready(function() {
     if(isLoaded()) return;
-    // alert(document.cookie);
 
     var exists = "exists",
         nonexists = "nonexists",
         success = "success",
         wrong_pin = "wrong pin";
 
-    var history = window.history;
-    var stateObj = {
-        title: 'home',
-        src: '/'
-    }   
-    history.pushState(stateObj, 'home', '/');
-
-    window.onpopstate = function(event){
-        alert("from home page");
-        alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-        var src = event.state.src;
-        if(src.indexOf('@') != -1)
-            $('.profile-btn').click();
-        else if(src == '/')
-            $('body').load('/');
-    }
-
-    /* ONCLICK ACTIONS WITH NO COMMUNICATION WITH DATABASE */
-
-    /* MODAL */
-    $('.logo-btn').on('click', function(){
-        $(".login-modal").css("visibility", "hidden");
-        $(".register-modal").css("visibility", "hidden");
-        $(".intro").css("visibility", "visible");
-    });
-
-    var checked = "login";
-    $(".register-modal").css("display", "none");
-
-    $('.login-btn').on('click', function(){
-        if(checked != "login"){
-        	$('.login-modal').toggle("slow", "swing");
-        	$('.register-modal').toggle("slow", "swing");
-        	checked = "login";
-        }
-    });
-
-    $('.register-btn').on('click', function(){
-        if(checked != "register"){
-        	$('.register-modal').toggle("slow", "swing");
-        	$('.login-modal').toggle("slow", "swing");
-        	checked = "register";
-        }
-    });
-
-
-    /* ONCLICK ACTIONS WITH COMMUNICATION WITH DATABASE */
-
-    $('.login-modal > form').submit(function(event){
-        event.preventDefault();
-        var user = {};
-        $(this).serializeArray().map(function(elem){
-            user[elem.name] = elem.value;
-        });
-        
+    // alert(document.cookie);
+    // check if document cookie is set
+    if(document.cookie.indexOf("account") !=-1){
+        var user = {
+            account: getCookie("account"),
+            pin: getCookie("pin")
+        };
         $.post('/login.db',
             {
                 data: JSON.stringify(user),
@@ -117,35 +68,126 @@ $(document).ready(function() {
             function (response) {
                 if (response == success){
                     window.location = "http://localhost:3000/@"+user.account;
+                }else{
+                    removeCookies();
                 }
-                else {
-                    $(".login-modal>.error-msg").text("* This account doesn't exist or the password is wrong");
-                }
-            });
-    });
+            }
+        );
+    }
 
-    $('.register-modal > form').submit(function(event){
-        event.preventDefault(); // prevent from submitting the form normally, i.e. without AJAX.
-        var user = {};
-        $(this).serializeArray().map(function(elem) {
-            user[elem.name] = elem.value;
+    else{
+        var history = window.history;
+        var stateObj = {
+            title: 'home',
+            src: '/'
+        }   
+        history.pushState(stateObj, 'home', '/');
+
+        window.onpopstate = function(event){
+            alert("from home page");
+            alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+            var src = event.state.src;
+            if(src.indexOf('@') != -1)
+                $('.profile-btn').click();
+            else if(src == '/')
+                $('body').load('/');
+        }
+
+        /* ONCLICK ACTIONS WITH NO COMMUNICATION WITH DATABASE */
+
+        /* MODAL */
+        var checked = "intro";
+        $(".login-modal").css("display", "none");
+        $(".register-modal").css("display", "none");
+
+        $('.login-btn').on('click', function(){
+            if(checked == "register"){
+            	$('.login-modal').css("display", "flex");
+            	$('.register-modal').css("display", "none");
+            	checked = "login";
+            }
+            else if(checked == "intro"){
+                $('.login-modal').css("display", "flex");
+                $('.intro-modal').css("display", "none");
+                checked = "login";
+            }
         });
-        $.post('/register.db',
-            {
-                data: JSON.stringify(user),
-                contentType: "application/json",
-                dataType: "text"
-            },
-            function (response) {
-                // alert(response);
-                if (response == exists) {
-                    // select email input
-                    $('.register-modal .error-msg').css("display", "initial");
-                }
-                else if (response == success) {
-                    $('login-btn').click();
-                    $(".login-btn").text("Proceed to login");   // modify the login button text
-                }
+
+        $('.register-btn').on('click', function(){
+            if(checked == "login"){
+            	$('.register-modal').css("display", "flex");
+            	$('.login-modal').css("display", "none");
+            	checked = "register";
+            }
+            else if(checked == "intro"){
+                $('.register-modal').css("display", "flex");
+                $('.intro-modal').css("display", "none");
+                checked = "register";
+            }
+        });
+
+        $('.logo-btn').on('click', function(){
+            if(checked == "login"){
+                $('.intro-modal').css("display", "flex");
+                $('.login-modal').css("display", "none");
+                checked = "intro";
+            }
+            else if(checked == "register"){
+                $('.intro-modal').css("display", "flex");
+                $('.register-modal').css("display", "none");
+                checked = "intro";
+            }
+        });
+
+        /* ONCLICK ACTIONS WITH COMMUNICATION WITH DATABASE */
+
+        $('.login-modal > form').submit(function(event){
+            event.preventDefault();
+            var user = {};
+            $(this).serializeArray().map(function(elem){
+                user[elem.name] = elem.value;
             });
-    });
+            
+            $.post('/login.db',
+                {
+                    data: JSON.stringify(user),
+                    contentType: "application/json",
+                    dataType: "text"
+                },
+                function (response) {
+                    if (response == success){
+                        window.location = "http://localhost:3000/@"+user.account;
+                    }
+                    else {
+                        $(".login-modal>.error-msg").text("* This account doesn't exist or the password is wrong");
+                    }
+                });
+        });
+
+        $('.register-modal > form').submit(function(event){
+            event.preventDefault(); // prevent from submitting the form normally, i.e. without AJAX.
+            var user = {};
+            $(this).serializeArray().map(function(elem) {
+                user[elem.name] = elem.value;
+            });
+            $.post('/register.db',
+                {
+                    data: JSON.stringify(user),
+                    contentType: "application/json",
+                    dataType: "text"
+                },
+                function (response) {
+                    if (response == exists) {
+                        // select email input
+                        $('.register-modal .error-msg').css("display", "initial");
+                    }
+                    else if (response == success) {
+                        $('.login-btn').click();
+                        $(".login-btn").text("Proceed to login");   // modify the login button text
+                    }
+                }
+            );
+        });
+    }
+
 });

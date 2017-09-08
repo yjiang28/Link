@@ -4,32 +4,62 @@ var settings = require('../settings.js'),
     redis    = require('redis'),
     client   = redis.createClient(),
     sub      = settings.sub;
-    path     = require('path'),
-    channel  = settings.channel;
+    path     = require('path');
 
+var debug = true;
+
+var channels = {}; 
 // enable keyspace event notification
 client.config("SET","notify-keyspace-events", "EA");
 sub.psubscribe("__key*__:*");
-sub.on("pmessage", function(pattern, event, key){
-    console.log("pattern",pattern);
-    console.log("channel",event);
-    console.log("message",key);
 
-    if(key.indexOf("contacts@") != -1){
-        var account = key.split("@")[1];
-        io.of("/"+account).emit("new contact", account);
-    }
+(function startListen(account){
+    // sub.removeListener("pmessage");
+    sub.on("pmessage", function(pattern, event, key){
+        // console.log("pattern",pattern);
+        console.log(event);
+        var cmd = event.split(":")[1];
+        
+        if(debug){
+            console.log("Event:", event);
+            console.log("Key:", key);        
+            console.log("Command", cmd);
+        }
 
-    else if(key.indexOf("profiles@") != -1){
-        var account = key.split("@")[1];
-        io.of("/"+account).emit("new profile", account);
-    }
+        if(key.indexOf("contacts@") != -1){
+            var account = key.split("@")[1];
+            io.of("/"+account).emit("new contact", account);
+        }
 
-});
+        else if(key.indexOf("profiles@") != -1){
+            var account = key.split("@")[1];
+
+            // if this account is already registered in channels
+            if(channels[account]){
+                // add a new profile
+                if(cmd == "zadd"){
+                    client.zcard(key, function(err, num){
+                        if(err) server.handleError();
+                        console.log(num,"profiles");
+
+                        client.zrange("profiles@"+account, num-1, num-1, function(err, newProfile){
+                            console.log(newProfile);
+                            if(err) server.handleError();
+                            newProfile = JSON.parse(newProfile);
+                            console.log("emitting msg to "+account);
+                            io.of("/"+account).emit("new profile", newProfile.name);    
+                        });    
+                    });
+                }
+            }
+        }
+    });
+})();
 
 module.exports = {
     login:
         function (res, user) {
+            if(debug) console.log("login");
             var account = user.account,
                 pin = user.pin;
             client.sismember('users', account, function(err, response){
@@ -70,10 +100,14 @@ module.exports = {
                                                             'timestamp='+new Date().getTime()/1000  // the seconds since midnight Jan 1st 1970
                                                         ]);
                                                         res.write(settings.success);
-                                                        res.end();
-                                                        console.log("listening to socket at /"+account);
+                                                        res.end();                                                        
+                                                        
                                                         io.of('/'+account).on('connection', function(socket){
-                                                            console.log(account+" connected");
+                                                            if(debug) console.log(channels[account]);
+                                                            channels[account] = true;
+                                                            socket.on("disconnection", function(){
+                                                                console.log("A socket at /", account, "disconnected");
+                                                            });
                                                         });
                                                     });
                                                 });
@@ -145,6 +179,7 @@ module.exports = {
             client.hmset(account, "status", "logout", function(err, response){
                 if(err) server.handleError();
                 else{
+                    channels[account] = false;
                     res.setHeader("Content-type", "text/plain");
                     res.write(settings.success);
                     res.end();
@@ -155,6 +190,7 @@ module.exports = {
 
     user:
         function(res, account){
+            if(debug) console.log("get user info");
             client.sismember('users', account, function(err, response){
                 // if account doesn't exist
                 if(response == 0){
@@ -169,8 +205,8 @@ module.exports = {
         
                 else{
                     client.hmget(account, "first_name", "last_name", "profile_pic", function(err, response){
-                        client.smembers(String("profiles@"+account), function(err, profiles){
-                            client.smembers(String("contacts@"+account), function(err, contacts){
+                        client.smembers(String("profileNames@"+account), function(err, profiles){
+                            client.smembers(String("contactNames@"+account), function(err, contacts){
                                 // console.log("profiles: "+profiles+"\ncontacts: "+contacts);
                                 var result = {
                                     account: account,
@@ -180,7 +216,7 @@ module.exports = {
                                     profiles: profiles,
                                     contacts: contacts
                                 };
-                                console.log(result);
+                                if(debug) console.log(result);
                                 res.setHeader("content-type", "application/json");
                                 res.write(JSON.stringify(result));
                                 res.end();
@@ -193,33 +229,56 @@ module.exports = {
 
     addContact:
         function(res, data){
+
             var srcUser = data.srcUser,
                 destUser = data.destUser;
-            client.sismember("contacts@"+srcUser, destUser, function(err, response){
-                // if srcUser is not following destUser
-                if(response == 0)
-                    client.sadd("contacts@"+srcUser, destUser, function(err, response){
-                        if(response == 1){
-                            client.sadd("contacts@"+destUser, srcUser, function(err, response){
-                                if(response == 1){
-                                    res.write(settings.success);
-                                    res.end();
-                                }
-                            });
+            
+            client.sadd("contactNames@"+srcUser, destUser, function(err, response){
+                if(err) server.handleError();
+                if(response == 0){
+                    res.write(settings.exist);
+                    res.end();
+                }else{
+                    client.sadd("contactNames@"+destUser, srcUser, function(err, response){
+                        if(err) server.handleError();
+                        if(response == 0){
+                            res.write(settings.exist);
+                            res.end();
+                        }else{
+                            res.write(settings.success);
+                            res.end();
                         }
                     });
+                }
             });
         },
 
-    profile:
+    addProfile:
         function(res, data){
+            if(debug) console.log("addProfile");
             var account = data.account,
-                profile = data.profile;               
-            client.sadd("profiles@"+account, JSON.stringify(profile), function(err, response){
-                if(err) server.handleError(res);
-                res.write(settings.success);
-                res.end();
-            });           
+                profile = data.profile;  
             
+            // specified members that are already a member of the set are ignored. 
+            client.sadd("profileNames@"+account, profile.name, function(err, response){
+                if(err){
+                    console.log("error");
+                    server.handleError();
+                }
+                else if(response == 0){
+                    res.write(settings.exist);
+                    res.end();
+                    console.log("profile exists");
+                }else{
+                    client.zcard("profiles@"+account, function(err, index){
+                        console.log("index", Number(index));
+                        client.zadd("profiles@"+account, index, JSON.stringify(profile), function(err, response){
+                            if(err) server.handleError(res);
+                            res.write(settings.success);
+                            res.end();
+                        });  
+                    });
+                }
+            });
         }
 }

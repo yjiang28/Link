@@ -1,55 +1,25 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden; }
-
-/* BUTTON SECTION */
-*[class$="btn"]:hover {
-  cursor: pointer;
-  transition: 0.2s;
-  color: #d9243b;
-  border-bottom: 1.5px #d9243b solid; }
-
-.container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center; }
-
-.navbar-v {
-  border: rgba(0, 0, 0, 0.1) 2px solid;
-  width: 220px;
-  height: 100vh;
-  margin: 0;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-start; }
-  .navbar-v .navbar-content {
-    width: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start; }
-    .navbar-v .navbar-content > div {
-      width: 100%;
-      border: 1px blue solid;
-      padding: 15px; }
-      .navbar-v .navbar-content > div .label {
-        border: 1px blue solid; }
-
-.dd {
-  border: 1px black solid;
-  margin: auto;
-  height: 100vh; }
+  overflow: scroll; }
 
 .modal {
-  margin: auto; }
+  position: relative;
+  top: 80px; }
+
+.main-modal {
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px #9bc53d solid;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px; }
+  .main-modal div {
+    width: 100%; }
+  .main-modal div:not([class$="-tg"]) {
+    height: 70px;
+    margin: 0;
+    padding-left: 30px; }
+    .main-modal div:not([class$="-tg"]) span, .main-modal div:not([class$="-tg"]) a {
+      height: 70px;
+      line-height: 70px; }
 
 /*# sourceMappingURL=main.css.map */

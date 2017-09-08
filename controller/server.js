@@ -10,6 +10,8 @@ var settings = require('../settings.js'),
     sub      = settings.sub,
     channel  = settings.channel;
 
+var debug = false;
+
 // create a server
 const server = http.createServer(handleRequests);
 server.listen(settings.port, settings.hostname, function(){
@@ -19,8 +21,8 @@ server.listen(settings.port, settings.hostname, function(){
 // mount socket.io on server 
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
-    console.log('A user connected');
-    console.log(socket.rooms);
+    // console.log('A user connected');
+    // console.log(socket.rooms);
     socket.on('disconnect', function(){
         console.log('A user disconnected');
     });
@@ -71,7 +73,9 @@ function handleRequests(req, res){
     
     var method = req.method,
         url    = req.url;
-    console.log("method: "+method+"\nurl: "+url);
+    
+    if(debug)
+        console.log("method: "+method+"\nurl: "+url);
 
     switch (method){
         case 'GET':
@@ -173,7 +177,7 @@ function handleRequests(req, res){
                            db.logout(res, account);
                         });
                         break;
-                    case '/follow.db':
+                    case '/contact.db':
                         var body = "";
                         req.on("error", function(e){
                             handleError(res);
@@ -183,7 +187,7 @@ function handleRequests(req, res){
                             res.on("error", function(e){handleError(res);});
                             body = JSON.parse(qs.parse(body).data);
                             console.log(body);
-                            db.follow(res, body);
+                            db.addContact(res, body);
                         });
                         break;
                     case '/profile.db':
@@ -196,7 +200,7 @@ function handleRequests(req, res){
                             res.on("error", function(e){handleError(res);});
                             body = JSON.parse(qs.parse(body).data);
                             console.log(body);
-                            db.profile(res, body);
+                            db.addProfile(res, body);
                         });
                         break;
                     default:
