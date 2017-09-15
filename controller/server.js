@@ -10,7 +10,7 @@ var settings = require('../settings.js'),
     sub      = settings.sub,
     channel  = settings.channel;
 
-var debug = false;
+var debug = true;
 
 // create a server
 const server = http.createServer(handleRequests);

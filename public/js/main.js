@@ -135,10 +135,10 @@ $(document).ready(function() {
 
     if(target == "buildProfile"){
         $(".newProfile-modal").css("display", "flex");
-        $(".main-modal").css("display", "none");
+        // $(".main-modal").css("display", "none");
     }
 
-    $('.main-modal').on('click', ".logout-btn", function(e){
+    $('.main-modal').on('click', ".logout", function(e){
         e.preventDefault();
         $.post("/logout.db",
             {

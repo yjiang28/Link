@@ -87,7 +87,6 @@ module.exports = {
                                             else{
                                                 client.scard("following@"+account, function(following){
                                                     client.scard("followers@"+account, function(followers){
-                                                        // console.log(name);
                                                         res.setHeader('Set-Cookie', [
                                                             'account='+account, 
                                                             'first_name='+response[0],
@@ -176,6 +175,7 @@ module.exports = {
 
     logout: 
         function(res, account){
+            if(debug) console.log("logout");
             client.hmset(account, "status", "logout", function(err, response){
                 if(err) server.handleError();
                 else{

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway");
 * {
   /* content, padding and border are all included in element's width and height */
   box-sizing: border-box; }
@@ -6,6 +7,9 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden; }
+
+body {
+  background: linear-gradient(150deg, #D040A6, #FB2EA4, #FC668B); }
 
 @media (max-width: 380px) {
   .modal {
@@ -18,25 +22,17 @@ html, body {
     width: 380px;
     max-width: 100%; } }
 @media (min-width: 768px) {
-  .modal {
-    width: 520px;
-    max-width: 100%; } }
-@media (min-width: 992px) {
-  .modal {
-    width: 520px;
-    max-width: 100%; } }
-@media (min-width: 1200px) {
-  .modal {
-    width: 520px;
+  .intro-modal {
+    width: 100%;
     max-width: 100%; } }
 /* FONT SECTION */
 .font-navbar {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  color: #9194a3; }
+  font-family: "Raleway", sans-serif;
+  font-size: 22px;
+  color: #FDFCFC; }
 
 .font-form {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 16px;
   color: #9194a3; }
 
@@ -44,8 +40,7 @@ html, body {
 *[class$="btn"]:hover > span {
   cursor: pointer;
   transition: 0.2s;
-  color: #d9243b;
-  border-bottom: 1.5px #d9243b solid; }
+  border-bottom: 1.5px #FDFCFC solid; }
 
 /* NAVIGATION BAR*/
 .navbar-h {
@@ -61,19 +56,20 @@ html, body {
     min-width: 100px;
     text-align: center;
     cursor: pointer;
-    line-height: 80px; }
+    line-height: 120px; }
 
 /* FORM */
 .modal {
   min-height: 420px;
   margin-left: auto;
   margin-right: auto;
+  background-color: #FDFCFC;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border: rgba(0, 0, 0, 0.1) 2px solid;
-  border-radius: 5px;
+  box-shadow: -15px 15px 15px #D040A6;
+  border-radius: 6px;
   /* FORM HEADER */
   /* POP-UP FORM FORM */ }
   .modal .modal-header {
@@ -122,12 +118,18 @@ html, body {
         margin-left: 0;
         padding: 0 15px;
         border: rgba(0, 0, 0, 0.1) 1px solid;
-        border-radius: 3px 0 0 3px;
+        border-radius: 3px;
         /* :: selects a pseudo element/class */ }
         .modal form .input-group-text input:focus::placeholder {
           color: transparent; }
+        .modal form .input-group-text input[type="submit"] {
+          background-color: #FB2EA4;
+          border: #FB2EA4 1px solid;
+          color: #FDFCFC;
+          cursor: pointer; }
         .modal form .input-group-text input[type="button"]:hover, .modal form .input-group-text input[type="submit"]:hover {
-          color: #d9243b;
+          background-color: #FDFCFC;
+          color: #FB2EA4;
           cursor: pointer; }
         .modal form .input-group-text input[type="email"]::placeholder, .modal form .input-group-text input[type="password"]::placeholder, .modal form .input-group-text input[type="text"]::placeholder {
           font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -142,5 +144,12 @@ html, body {
       .modal form .input-group-img img {
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         width: 80px; }
+
+.intro-modal {
+  border: none;
+  background-color: transparent;
+  color: #FDFCFC;
+  font-size: 36px;
+  box-shadow: none; }
 
 /*# sourceMappingURL=index.css.map */

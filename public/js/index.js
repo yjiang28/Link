@@ -155,11 +155,12 @@ $(document).ready(function() {
                     dataType: "text"
                 },
                 function (response) {
+                    alert(response);
                     if (response == success){
                         window.location = "http://localhost:3000/@"+user.account;
                     }
                     else {
-                        $(".login-modal>.error-msg").text("* This account doesn't exist or the password is wrong");
+                        $(".login-modal .error-msg").css("display", "initial");
                     }
                 });
         });
@@ -183,7 +184,9 @@ $(document).ready(function() {
                     }
                     else if (response == success) {
                         $('.login-btn').click();
-                        $(".login-btn").text("Proceed to login");   // modify the login button text
+                        $('.register-modal input:not(input[type="submit"])').val("");
+                        $('.login-modal input:not(input[type="submit"])').val("");
+
                     }
                 }
             );

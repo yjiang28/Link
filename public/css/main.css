@@ -1,25 +1,39 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
-html, body {
-  overflow: scroll; }
-
-.modal {
-  position: relative;
-  top: 80px; }
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+body {
+  background: none;
+  background-color: rgba(0, 0, 0, 0.05); }
+  body > div {
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    top: 120px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 764px; }
 
 .main-modal {
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
-  border: 1px #9bc53d solid;
-  font-family: "Open Sans", sans-serif;
-  font-size: 18px; }
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  color: #FDFCFC;
+  background: linear-gradient(150deg, #D040A6, #FB2EA4, #FC668B);
+  box-shadow: -15px 15px -15px #D040A6; }
   .main-modal div {
     width: 100%; }
   .main-modal div:not([class$="-tg"]) {
-    height: 70px;
+    height: 60px;
     margin: 0;
-    padding-left: 30px; }
+    padding-left: 35px;
+    border-bottom: 1.5px #D040A6 solid; }
+    .main-modal div:not([class$="-tg"]):hover {
+      cursor: pointer; }
     .main-modal div:not([class$="-tg"]) span, .main-modal div:not([class$="-tg"]) a {
-      height: 70px;
-      line-height: 70px; }
+      height: 60px;
+      line-height: 60px; }
+
+.newProfile-modal {
+  box-shadow: -15px 15px 15px rgba(0, 0, 0, 0.05); }
 
 /*# sourceMappingURL=main.css.map */

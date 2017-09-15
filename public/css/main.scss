@@ -1,38 +1,61 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-$font-family: 'Open Sans', sans-serif;
+$pink: #d9243b;
+$bg1: #D040A6;
+$bg2: #FB2EA4;
+$bg3: #FC668B;
+$white: #FDFCFC;
+$gray-light: rgba(0, 0, 0, 0.05);
+$gray-dark: #9194a3; 
 
-html, body{
-  overflow: scroll;
-}
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+$font-family: 'Raleway', sans-serif;
 
-.modal{
-  position: relative;
-  top: 80px;
+body{
+  background: none;
+  background-color: $gray-light;
+  
+  & > div{
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    top: 120px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    // border: 1px solid black;
+    width: 764px;
+  } 
 }
 
 .main-modal{
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
-  border: 1px #9bc53d solid;
   font-family: $font-family;
   font-size: 18px;
-  // color: white;
-  // background-color: #9bc53d;
+  color: $white;
+  background: linear-gradient(150deg, $bg1, $bg2, $bg3);
+      box-shadow: -15px 15px -15px $bg1;
 
   & div{
     width: 100%;
   }
 
   & div:not([class$="-tg"]){
-    height: 70px;
+    height: 60px;
     margin: 0;
-    padding-left: 30px;
-    // border-bottom: 1px white solid;
+    padding-left: 35px;
+    border-bottom: 1.5px $bg1 solid;
+
+    &:hover{
+      cursor: pointer;
+    }
 
     & span, a{
-      height: 70px;
-      line-height: 70px;
+      height: 60px;
+      line-height: 60px;
     }
   }
 }
 
+.newProfile-modal{
+    box-shadow: -15px 15px 15px $gray-light;
+}
