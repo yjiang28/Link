@@ -10,14 +10,14 @@ var debug = true;
 
 var channels = {}; 
 // enable keyspace event notification
-client.config("SET","notify-keyspace-events", "EA");
+client.config("SET","notify-keyspace-events", "KEA");
 sub.psubscribe("__key*__:*");
 
 (function startListen(account){
     // sub.removeListener("pmessage");
     sub.on("pmessage", function(pattern, event, key){
         // console.log("pattern",pattern);
-        console.log(event);
+        console.log("Event:", event);
         var cmd = event.split(":")[1];
         
         if(debug){
@@ -28,7 +28,24 @@ sub.psubscribe("__key*__:*");
 
         if(key.indexOf("contacts@") != -1){
             var account = key.split("@")[1];
-            io.of("/"+account).emit("new contact", account);
+
+            if(channels[account]){
+                // add a new contact
+                if(cmd == "zadd"){
+                    client.zcard(key, function(err, num){
+                        if(err) server.handleError();
+                        console.log(num,"contacts");
+
+                        client.zrange("contacts@"+account, num-1, num-1, function(err, newContact){
+                            console.log("newContact:", newContact);
+                            if(err) server.handleError();
+                            newContact = JSON.parse(newContact);
+                            console.log("emitting msg to "+account);
+                            io.of("/"+account).emit("new contact", newContact.name);    
+                        });    
+                    });
+                }
+            }
         }
 
         else if(key.indexOf("profiles@") != -1){
@@ -43,7 +60,7 @@ sub.psubscribe("__key*__:*");
                         console.log(num,"profiles");
 
                         client.zrange("profiles@"+account, num-1, num-1, function(err, newProfile){
-                            console.log(newProfile);
+                            console.log("newProfile:", newProfile);
                             if(err) server.handleError();
                             newProfile = JSON.parse(newProfile);
                             console.log("emitting msg to "+account);
@@ -53,18 +70,22 @@ sub.psubscribe("__key*__:*");
                 }
             }
         }
+
+        // else if(key.indexOf(""))
     });
 })();
 
 module.exports = {
     login:
         function (res, user) {
-            if(debug) console.log("login");
+            
             var account = user.account,
                 pin = user.pin;
+            if(debug) console.log(account, "login with pin", pin);  
             client.sismember('users', account, function(err, response){
                 if(err) server.handleError(res);
                 else{
+                    console.log("login response", response);
                     res.statusCode = 200;
                     res.setHeader('Content-type', 'text/plain');
                     // if the account doesn't exist
@@ -98,16 +119,22 @@ module.exports = {
                                                             'profile_pic='+response[4],
                                                             'timestamp='+new Date().getTime()/1000  // the seconds since midnight Jan 1st 1970
                                                         ]);
+                                                        console.log("login", settings.success);
                                                         res.write(settings.success);
                                                         res.end();                                                        
                                                         
-                                                        io.of('/'+account).on('connection', function(socket){
-                                                            if(debug) console.log(channels[account]);
-                                                            channels[account] = true;
-                                                            socket.on("disconnection", function(){
-                                                                console.log("A socket at /", account, "disconnected");
+                                                        if(!channels[account]){
+                                                            io.of('/'+account).on('connection', function(socket){
+                                                                if(debug) console.log(account, "established channel");
+                                                                channels[account] = true;
+                                                                socket.on("disconnection", function(){
+                                                                    console.log("A socket at /", account, "disconnected");
+                                                                });
+                                                                // socket.on("send msg", function(data){
+                                                                //     console.log("send msg",data);
+                                                                // });
                                                             });
-                                                        });
+                                                        }
                                                     });
                                                 });
                                                 
@@ -160,11 +187,7 @@ module.exports = {
                     
                     "bio",           '',
                     "profile_pic",   '/public/img/user.svg',
-
-                    "orders",        '',
-                    "balance",       0 ,
-                    "contributions", '',
-                    "stars",         ''
+                    "unread_msg",           0
                 );
         
                 res.write(settings.success);
@@ -181,6 +204,19 @@ module.exports = {
                 else{
                     channels[account] = false;
                     res.setHeader("Content-type", "text/plain");
+                    res.setHeader('Set-Cookie', [
+                        'account=', 
+                        'first_name=',
+                        'last_name=',
+                        'pin=',
+                        'bio=',                                                     
+                        'following=',
+                        'followers=',
+                        'profile_pic=',
+                        'timestamp=',
+                        'path=/',
+                        'expires=Thu, 01 Jan 1970 00:00:00 GMT'
+                    ]);
                     res.write(settings.success);
                     res.end();
                     return;
@@ -204,7 +240,7 @@ module.exports = {
                 }
         
                 else{
-                    client.hmget(account, "first_name", "last_name", "profile_pic", function(err, response){
+                    client.hmget(account, "first_name", "last_name", "profile_pic", "unread_msg", function(err, response){
                         client.smembers(String("profileNames@"+account), function(err, profiles){
                             client.smembers(String("contactNames@"+account), function(err, contacts){
                                 // console.log("profiles: "+profiles+"\ncontacts: "+contacts);
@@ -213,10 +249,11 @@ module.exports = {
                                     first_name: response[0],
                                     last_name: response[1],
                                     profile_pic: response[2],
+                                    unread_msg: response[3],
                                     profiles: profiles,
                                     contacts: contacts
                                 };
-                                if(debug) console.log(result);
+                                if(debug) console.log("result:", result);
                                 res.setHeader("content-type", "application/json");
                                 res.write(JSON.stringify(result));
                                 res.end();
@@ -233,24 +270,57 @@ module.exports = {
             var srcUser = data.srcUser,
                 destUser = data.destUser;
             
-            client.sadd("contactNames@"+srcUser, destUser, function(err, response){
-                if(err) server.handleError();
-                if(response == 0){
-                    res.write(settings.exist);
-                    res.end();
-                }else{
-                    client.sadd("contactNames@"+destUser, srcUser, function(err, response){
+            client.sismember("users", destUser, function(err, response){
+                var obj = {};
+                // destUser exists in users db
+                if(response == 1){
+                    if(debug) console.log("destUser exists in users db");
+                    client.sadd("contactNames@"+srcUser, destUser, function(err, response){
                         if(err) server.handleError();
+                        // destUser is already in srcUser's contact list 
                         if(response == 0){
-                            res.write(settings.exist);
-                            res.end();
+                            if(debug) console.log("duplicate contact");
+                            obj.status = settings.exists;
                         }else{
-                            res.write(settings.success);
-                            res.end();
+                            if(debug) console.log("new contact");
+                            obj.status = settings.success;
+                            client.sadd("contactNames@"+destUser, srcUser); 
+                            client.zcard("contacts@"+srcUser, function(err, index){
+                                console.log("Index", index);
+                                client.zadd("contacts@"+srcUser, index, JSON.stringify({name:destUser,profile:"public"}));
+                            });
+                            client.zcard("contacts@"+destUser, function(err, index){
+                                console.log("Index", index);
+                                client.zadd("contacts@"+destUser, index, JSON.stringify({name:srcUser,profile:"public"}));
+                            });                            
                         }
+
+                        client.hmget(destUser, "first_name", "last_name", "profile_pic", "bio", function(err, response){
+                            if(err) handleError();
+                            obj.content = {
+                                account: destUser,
+                                first_name: response[0],
+                                last_name: response[1],
+                                profile_pic: response[2],
+                                bio: response[3]
+                            };
+                            console.log("Targeted contact info:", obj);
+                            res.setHeader("content-type", "application/json");
+                            res.write(JSON.stringify(obj));
+                            res.end();
+                        });                   
                     });
                 }
+
+                // if user doesn't exist in users db
+                else{
+                    obj.status = settings.nonexists;
+                    res.setHeader("content-type", "application/json");
+                    res.write(JSON.stringify(obj));
+                    res.end();
+                }
             });
+            
         },
 
     addProfile:
@@ -280,5 +350,23 @@ module.exports = {
                     });
                 }
             });
+        },
+
+    addMsg:
+        function(res, data){
+            var srcUser = data.srcUser,
+                destUser = data.destUser,
+                msg = data.msg;
+
+            client.sadd("msgNames@"+srcUser, destUser, function(err, response){
+                
+            });
+            client.zcard("msg@"+srcUser, function(err, index){
+                client.zadd("msg@"+srcUser, index, destUser)    
+            })
+            
+            res.write(settings.success);
+            res.end();
+
         }
 }

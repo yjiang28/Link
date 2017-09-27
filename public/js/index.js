@@ -40,8 +40,9 @@ var removeCookies = function(){
     var arr = document.cookie.split("; "), i;
     for(i=0;arr[i]!=undefined;i++){
         var parts = arr[i].split("=");
-        document.cookie = parts[0]+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        document.cookie = parts[0]+"=; "; 
     }
+    document.cookie += "expires=Thu, 01 Jan 1970 00:00:00 GMT";
 }
 
 $(document).ready(function() {
@@ -54,9 +55,11 @@ $(document).ready(function() {
 
     // alert(document.cookie);
     // check if document cookie is set
-    if(document.cookie.indexOf("account") !=-1){
+    var account = getCookie("account");
+    // alert('1'+account+'1');
+    if(account !=undefined && account != null && account.length > 0){
         var user = {
-            account: getCookie("account"),
+            account: account,
             pin: getCookie("pin")
         };
         $.post('/login.db',
@@ -76,6 +79,7 @@ $(document).ready(function() {
     }
 
     else{
+        // alert("No cookie");
         var history = window.history;
         var stateObj = {
             title: 'home',
@@ -155,7 +159,7 @@ $(document).ready(function() {
                     dataType: "text"
                 },
                 function (response) {
-                    alert(response);
+                    // alert(response);
                     if (response == success){
                         window.location = "http://localhost:3000/@"+user.account;
                     }
@@ -185,7 +189,9 @@ $(document).ready(function() {
                     else if (response == success) {
                         $('.login-btn').click();
                         $('.register-modal input:not(input[type="submit"])').val("");
+                        $('.register-modal .error-msg').css("display", "none");
                         $('.login-modal input:not(input[type="submit"])').val("");
+                        $('.login-modal .error-msg').css("display", "none");
 
                     }
                 }

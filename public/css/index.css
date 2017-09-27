@@ -9,7 +9,7 @@ html, body {
   overflow: hidden; }
 
 body {
-  background: linear-gradient(150deg, #D040A6, #FB2EA4, #FC668B); }
+  background: linear-gradient(120deg, #d9243b, #FF6C91, #FF94B3); }
 
 @media (max-width: 380px) {
   .modal {
@@ -68,15 +68,15 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  box-shadow: -15px 15px 15px #D040A6;
+  box-shadow: -15px 15px 15px #d9243b;
   border-radius: 6px;
   /* FORM HEADER */
   /* POP-UP FORM FORM */ }
   .modal .modal-header {
     width: 100%;
-    height: 60px;
+    height: 70px;
     position: relative;
-    border-bottom: rgba(0, 0, 0, 0.1) 1px solid; }
+    border-bottom: #9194a3 1px solid; }
     .modal .modal-header div {
       position: absolute;
       width: 80%;
@@ -101,7 +101,8 @@ body {
       padding: 0;
       margin: 0;
       color: #d9243b;
-      display: none; }
+      display: none;
+      font-size: 16px; }
     .modal form *[class^="input-group"] {
       width: 100%;
       padding: 0;
@@ -117,19 +118,19 @@ body {
         height: 100%;
         margin-left: 0;
         padding: 0 15px;
-        border: rgba(0, 0, 0, 0.1) 1px solid;
+        border: #9194a3 1px solid;
         border-radius: 3px;
         /* :: selects a pseudo element/class */ }
         .modal form .input-group-text input:focus::placeholder {
           color: transparent; }
         .modal form .input-group-text input[type="submit"] {
-          background-color: #FB2EA4;
-          border: #FB2EA4 1px solid;
+          background-color: #d9243b;
+          border: #d9243b 1px solid;
           color: #FDFCFC;
           cursor: pointer; }
         .modal form .input-group-text input[type="button"]:hover, .modal form .input-group-text input[type="submit"]:hover {
           background-color: #FDFCFC;
-          color: #FB2EA4;
+          color: #d9243b;
           cursor: pointer; }
         .modal form .input-group-text input[type="email"]::placeholder, .modal form .input-group-text input[type="password"]::placeholder, .modal form .input-group-text input[type="text"]::placeholder {
           font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;

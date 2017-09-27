@@ -22,14 +22,15 @@
 			</div>
 
 			<div class="profiles">
-				<span class="label">Profiles</span>
+				<span>Profiles</span>
 				<span class="newProfile-btn">Add profile</span>
 			</div>
 
 			<div class="profile-tg"></div>
 
 			<div class="msg">
-				<span>Message</span>	
+				<span>Message</span>
+				<span></span>	
 			</div>
 
 			<div class="msg-tg"></div>
@@ -82,8 +83,40 @@
 	                <input class="font-form" type="submit" value="Create profile">
 	            </div>
 	        </form>
+		</div>
 
-	    </div>
+		<div class="modal newContact-modal">
+			<form>
+				<div class="error-msg">This user doesn't exist</div>
+				<div class="input-group-text">
+					<input type="text" name="target">
+				</div>
+
+				<div class="input-group-text">
+					<input type="submit" value="Search">
+				</div>
+			</form>
+		</div>
+
+		<div class="modal chat-modal">
+
+			<div class="modal-header">
+				<img src="/public/img/user.svg" class="avatar">
+				<div>Username</div>
+			</div>
+		
+			<div class="modal-content">
+				<div class="receive"></div>
+
+				<form class="send" id="send">
+					<!-- <input type="text" name="msg"> -->
+					<textarea name="msg" form="send" rows="4" cols="50" value=""></textarea>
+					<input type="submit" value="send">
+				</form>
+
+				
+			</div>
+		</div>
 	</div>
  	<!-- </div> -->
 </body>

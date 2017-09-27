@@ -1,13 +1,17 @@
-$pink: #d9243b;
-$bg1: #D040A6;
-$bg2: #FB2EA4;
-$bg3: #FC668B;
+$bg1: #FF4D7F;
+$bg2: #FF6C91;
+$bg3: #FF94B3;
 $white: #FDFCFC;
 $gray-light: rgba(0, 0, 0, 0.05);
 $gray-dark: #9194a3; 
 
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 $font-family: 'Raleway', sans-serif;
+
+html, body{
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 
 body{
   background: none;
@@ -33,7 +37,7 @@ body{
   font-size: 18px;
   color: $white;
   background: linear-gradient(150deg, $bg1, $bg2, $bg3);
-      box-shadow: -15px 15px -15px $bg1;
+  box-shadow: -15px 15px -15px $bg1;
 
   & div{
     width: 100%;
@@ -43,7 +47,7 @@ body{
     height: 60px;
     margin: 0;
     padding-left: 35px;
-    border-bottom: 1.5px $bg1 solid;
+    border-bottom: 1.5px $gray-light solid;
 
     &:hover{
       cursor: pointer;
@@ -56,6 +60,88 @@ body{
   }
 }
 
-.newProfile-modal{
-    box-shadow: -15px 15px 15px $gray-light;
+.newProfile-modal, .newContact-modal{
+  // border: 1px solid $gray-dark;
+  box-shadow: 15px 15px 15px $gray-dark;
+}
+
+.chat-modal{
+  box-shadow: 15px 15px 15px $gray-dark;
+  height: 420px;
+
+  & .modal-header{
+    & .avatar{
+      position: absolute;
+      box-shadow: 0px 2px 4px $gray-light;
+      width: 70px;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background-color: $white;
+    }
+
+    & div{
+      position: absolute;
+      top: 45px;
+    }
+  }
+
+  & .modal-content{
+    width: 94%;
+    height: 100%;
+    // border: 1px solid black;
+
+    & .receive{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      // border:1px black solid;
+      width: 100%;
+      height: 80%;
+    }
+
+    & .send{
+      width: 100%;
+      height: 15%;
+      flex-direction: row;
+      border:1px $gray-dark solid;
+      border-radius: 27px;
+      overflow: hidden;
+      
+      // & input{
+      //   display: inline-block;
+      //   height: 100%;
+      //   border: none;
+      //   background-color: transparent;
+      //   padding: 20px;
+      // }
+
+      // & input[type="text"]{
+      //   width: 90%;
+      // }
+      & textarea, input[type="submit"]{
+        display: inline-block;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        overflow-y: scroll;
+      }
+
+      & textarea{
+        width: 90%;
+        padding: 5px 30px;
+      }
+
+      & input[type="submit"]{
+        padding: 20px;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+
+    
+  }
+  
 }

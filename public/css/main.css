@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
+html, body {
+  overflow-y: scroll;
+  overflow-x: hidden; }
+
 body {
   background: none;
   background-color: rgba(0, 0, 0, 0.05); }
@@ -18,22 +22,67 @@ body {
   font-family: "Raleway", sans-serif;
   font-size: 18px;
   color: #FDFCFC;
-  background: linear-gradient(150deg, #D040A6, #FB2EA4, #FC668B);
-  box-shadow: -15px 15px -15px #D040A6; }
+  background: linear-gradient(150deg, #FF4D7F, #FF6C91, #FF94B3);
+  box-shadow: -15px 15px -15px #FF4D7F; }
   .main-modal div {
     width: 100%; }
   .main-modal div:not([class$="-tg"]) {
     height: 60px;
     margin: 0;
     padding-left: 35px;
-    border-bottom: 1.5px #D040A6 solid; }
+    border-bottom: 1.5px rgba(0, 0, 0, 0.05) solid; }
     .main-modal div:not([class$="-tg"]):hover {
       cursor: pointer; }
     .main-modal div:not([class$="-tg"]) span, .main-modal div:not([class$="-tg"]) a {
       height: 60px;
       line-height: 60px; }
 
-.newProfile-modal {
-  box-shadow: -15px 15px 15px rgba(0, 0, 0, 0.05); }
+.newProfile-modal, .newContact-modal {
+  box-shadow: 15px 15px 15px #9194a3; }
+
+.chat-modal {
+  box-shadow: 15px 15px 15px #9194a3;
+  height: 420px; }
+  .chat-modal .modal-header .avatar {
+    position: absolute;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    width: 70px;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #FDFCFC; }
+  .chat-modal .modal-header div {
+    position: absolute;
+    top: 45px; }
+  .chat-modal .modal-content {
+    width: 94%;
+    height: 100%; }
+    .chat-modal .modal-content .receive {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 100%;
+      height: 80%; }
+    .chat-modal .modal-content .send {
+      width: 100%;
+      height: 15%;
+      flex-direction: row;
+      border: 1px #9194a3 solid;
+      border-radius: 27px;
+      overflow: hidden; }
+      .chat-modal .modal-content .send textarea, .chat-modal .modal-content .send input[type="submit"] {
+        display: inline-block;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        overflow-y: scroll; }
+      .chat-modal .modal-content .send textarea {
+        width: 90%;
+        padding: 5px 30px; }
+      .chat-modal .modal-content .send input[type="submit"] {
+        padding: 20px; }
+        .chat-modal .modal-content .send input[type="submit"]:hover {
+          cursor: pointer; }
 
 /*# sourceMappingURL=main.css.map */

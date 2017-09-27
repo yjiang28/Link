@@ -203,6 +203,19 @@ function handleRequests(req, res){
                             db.addProfile(res, body);
                         });
                         break;
+                    case '/msg.db':
+                        var body = "";
+                        req.on("error", function(e){
+                            handleError(res);
+                        }).on("data", function(chunk){
+                            body += chunk;
+                        }).on("end", function(){
+                            res.on("error", function(e){handleError(res);});
+                            body = JSON.parse(qs.parse(body).data);
+                            console.log(body);
+                            db.addMsg(res, body);
+                        });
+                        break;
                     default:
                         console.log("TBD");
                 }
